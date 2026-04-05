@@ -1,81 +1,71 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/1PuxbblI)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=23424992&assignment_repo_type=AssignmentRepo)
-# Group Project Repository 
+# FinBoard — Personal Finance AI Board of Advisors
 
-Welcome to CS494: Agentic AI **Group Project repository**   
+## Team Members
 
-This repository is for your **_project submission and milestone tracking_**.
+- Karthik Kesavarapu (krk7) — project lead, agentic design
+- Shanmukh Chebrolu (scheb2) — backend development, LangGraph orchestration
+- Rahul Gowda (rgowd3) — agent implementation, tools
+- Nathan Thokkudubiyyapu (nthok2) — frontend development
+- Sri Sirikonda (ssiri5) — testing, documentation
 
-- You may develop your code elsewhere (e.g., in your personal GitHub repositories), but you must commit and push your code here regularly to track progress and meet the scheduled check-ins or milestones.
-- You may also develop directly in this repository, committing your work as you progress.
+## Description
 
-We have three remaining milestones related to code submission. Please make sure that your code is updated and pushed to the repository for each milestone:
-    1. Proposal
-    2. Project check-in
-    3. Final Code Submission
-> _Note_: No late submissions are allowed for the **project related** submission. 
----
-## Project Overview
+FinBoard is a multi-agent personal finance advisory platform. A user submits a financial question (e.g., "Should I invest $5,000 right now?") and receives a synthesized recommendation from a board of four AI agents, each with a distinct reasoning strategy: an Economic News Agent (RAG), a Budget Planner (ReAct), an Investment Advisor (ReAct), and a Risk Analyst (adversarial reflection). The Risk Analyst can trigger a revision loop, forcing the Investment Advisor to revise its recommendation before a final synthesized verdict is produced.
 
-Each team is tasked with designing and implementing a multi-agent system (MAS). Your project should demonstrate how multiple agents interact, coordinate, or solve a problem as a system.  
+## Requirements
 
----
+- Python 3.10+
+- Node.js 18+
+- OpenAI API key (required)
+- NewsAPI key (optional — app degrades gracefully to a mock briefing)
+- Packages: see `backend/requirements.txt` and `frontend/package.json`
 
-## Submission Guidelines
-
-1. **Code Submission:**  
-   - You may submit your code at any stage of development in this repository.  
-   - Ensure that your "final working code" is complete and available here by the submission deadline.  
-
-2. **Documentation:**  
-   - You are expected to replace this `README.md` with a professional project README.  
-   - Your README should include:  
-     - Team members’ names  
-     - Project description  
-     - Clear instructions on how to run the code  
-
-3. **Instructions on Running the Code:**  
-   Your README must clearly explain:  
-   - Environment requirements (e.g., Python version, Node.js, libraries)  
-   - Installation steps (e.g., `pip install -r requirements.txt`)  
-   - How to execute the code (commands, scripts, or examples)  
-   - Example input/output (if applicable)  
-
----
-
-## Example README Structure (for reference)
-
-Below is an example of how a professional README might be structured. **You are expected to write your own professional and complete README for your project.**
-
-
-### Project Name
-Multi-Agent Task Coordinator
-
-### Team Members
-- Alice Andrews (alice123)  - project lead, agentic design
-- Bob McKinsey (bob456) - backend development, system integration
-- Charles Ken (charles789) - Testing, documentation 
-
-### Description
-This project implements a multi-agent task coordination system in which agents communicate to allocate tasks efficiently and resolve conflicts dynamically.
-
-### Requirements
-- Python 3.10+  
-- Packages: `numpy`, `networkx`  
-
-### Installation
-Run the following commands:
+## Installation
 
 ```bash
-git clone https://github.com/<team-repo>/<project>.git
-cd <project>
+git clone https://github.com/<team-repo>/finboard.git
+cd finboard
+cp .env.example .env
+# Edit .env and add your OPENAI_API_KEY (and optionally NEWSAPI_KEY)
+```
+
+Install backend dependencies:
+
+```bash
+cd backend
 pip install -r requirements.txt
-
-```
-### Running the project
-```
-python main.py
 ```
 
-### Results / Demo (optional)
-...
+Install frontend dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+## Running the Project
+
+**Backend** (runs on `http://localhost:8000`):
+
+```bash
+cd backend
+uvicorn main:app --reload --port 8000
+```
+
+**Frontend** (runs on `http://localhost:5173`):
+
+```bash
+cd frontend
+npm run dev
+```
+
+**Integration test** (requires `OPENAI_API_KEY`):
+
+```bash
+cd backend
+python test_graph.py
+```
+
+## Results / Demo
+
+FinBoard streams agent outputs progressively to the UI as each agent completes. The four-agent board produces a final synthesized verdict with risk-level badges, percentage-based asset allocations, and a full reasoning trace per agent. The Risk Analyst's adversarial reflection loop triggers automatic revision of the Investment Advisor's recommendation when any risk severity reaches 4/5 or higher.

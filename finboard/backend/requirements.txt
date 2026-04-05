@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+langgraph>=0.2
+langchain>=0.3
+langchain-openai
+langchain-community
+openai
+chromadb
+yfinance
+newsapi-python
+sqlalchemy
+python-dotenv
+sse-starlette
+pydantic>=2
+httpx
