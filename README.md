@@ -5,8 +5,8 @@
 - Karthik Kesavarapu (krk7) — project lead, agentic design
 - Shanmukh Chebrolu (scheb2) — backend development, LangGraph orchestration
 - Rahul Gowda (rgowd3) — agent implementation, tools
-- Nathan Thokkudubiyyapu (nthok2) — frontend development
-- Sri Sirikonda (ssiri5) — testing, documentation
+- Nathan Thokkudubiyyapu (nthok2) — frontend development, testing, documentation
+- Sri Sirikonda (ssiri5) — backend development, API integration
 
 ## Description
 
