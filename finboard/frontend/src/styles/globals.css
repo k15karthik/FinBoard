@@ -1,0 +1,222 @@
+/* =====================================================
+   FinBoard Global Styles — Startup Dark Theme
+   ===================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Variables ─────────────────────────────────── */
+:root {
+  --bg-base:             #050508;
+  --bg-surface:          #0d0d14;
+  --bg-card:             #13131f;
+  --bg-elevated:         #1a1a2e;
+  --border:              #1e1e35;
+  --border-bright:       #2d2d50;
+  --text-primary:        #f0f0ff;
+  --text-secondary:      #8888bb;
+  --text-muted:          #4a4a6a;
+  --accent-purple:       #7c3aed;
+  --accent-purple-bright:#a855f7;
+  --accent-purple-glow:  #c084fc;
+  --accent-violet:       #6d28d9;
+  --accent-green:        #10b981;
+  --accent-red:          #ef4444;
+  --accent-amber:        #f59e0b;
+  --accent-blue:         #3b82f6;
+  --glow-purple:         0 0 20px rgba(124, 58, 237, 0.3);
+  --glow-green:          0 0 15px rgba(16, 185, 129, 0.2);
+  --glow-red:            0 0 15px rgba(239, 68, 68, 0.25);
+}
+
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  /* Subtle dot-grid pattern */
+  background-image:
+    radial-gradient(circle, rgba(124, 58, 237, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ── Scrollbar Styling ─────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-violet);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple-bright);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-violet) var(--bg-surface);
+}
+
+/* ── Typography helpers ────────────────────────────── */
+.font-grotesk { font-family: 'Space Grotesk', sans-serif; }
+.font-mono    { font-family: 'JetBrains Mono', monospace; }
+.font-sans    { font-family: 'Inter', sans-serif; }
+
+.gradient-text {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Card / Glass helpers ──────────────────────────── */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card:hover {
+  border-color: var(--border-bright);
+  box-shadow: var(--glow-purple);
+}
+
+/* ── Animations ────────────────────────────────────── */
+
+/* Thinking dots */
+@keyframes thinking-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.3; }
+  40%            { transform: translateY(-6px); opacity: 1; }
+}
+
+.thinking-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.thinking-dots span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-purple-bright);
+  animation: thinking-bounce 1.2s ease-in-out infinite;
+}
+.thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Critical pulse for CRITICAL risk badge */
+@keyframes critical-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  50%       { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+.critical-pulse {
+  animation: critical-pulse 1.5s ease-in-out infinite;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--bg-elevated) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* Spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.spin { animation: spin 0.8s linear infinite; }
+
+/* Purple border pulse (THINKING state) */
+@keyframes border-glow {
+  0%, 100% { border-color: var(--accent-purple); box-shadow: 0 0 8px rgba(124, 58, 237, 0.3); }
+  50%       { border-color: var(--accent-purple-bright); box-shadow: 0 0 16px rgba(168, 85, 247, 0.5); }
+}
+.thinking-border {
+  animation: border-glow 2s ease-in-out infinite;
+}
+
+/* ── Trace line coloring ───────────────────────────── */
+.trace-line { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+.trace-thought      { color: var(--accent-blue); }
+.trace-action       { color: var(--accent-amber); }
+.trace-observation  { color: var(--accent-green); }
+.trace-default      { color: var(--text-secondary); }
+
+/* ── Reduced motion ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Focus ring ────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-purple-bright);
+  outline-offset: 2px;
+}
+
+/* ── Gradient divider ──────────────────────────────── */
+.gradient-hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-purple), var(--accent-purple-bright), transparent);
+  margin: 12px 0;
+}
+
+/* ── Border rotate (animated conic border) ─────────── */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes border-rotate {
+  to { --angle: 360deg; }
+}
+
+/* ── Lab bg overflow protection ────────────────────── */
+.lab-bg::before {
+  overflow: hidden;
+  max-width: 100vw;
+  max-height: 100vh;
+  box-sizing: border-box;
+}
