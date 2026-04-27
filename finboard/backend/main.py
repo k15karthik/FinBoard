@@ -2,8 +2,17 @@
 
 import json
 import asyncio
+import logging
 import os
+import time
 from typing import AsyncGenerator
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s  %(levelname)-8s  %(name)s  %(message)s",
+    datefmt="%H:%M:%S",
+)
+log = logging.getLogger("finboard")
 
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,7 +32,7 @@ app = FastAPI(title="FinBoard API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:3000", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,6 +76,7 @@ _OUTPUT_KEYS = {
 
 
 async def _stream_graph(request: QueryRequest) -> AsyncGenerator[dict, None]:
+    log.info("─── NEW QUERY: %r", request.question[:80])
     initial_state: FinBoardState = {
         "question": request.question,
         "budget_data": request.budget_data or {},
@@ -84,13 +94,23 @@ async def _stream_graph(request: QueryRequest) -> AsyncGenerator[dict, None]:
     # Track how many times investment_advisor has fired (for revision status)
     advisor_fire_count = 0
     final_state: FinBoardState = {}
+    t0 = time.perf_counter()
 
     try:
+        log.info("graph.astream — starting")
         async for chunk in graph.astream(initial_state, stream_mode="updates"):
+            elapsed = time.perf_counter() - t0
+            log.debug("chunk keys: %s  (%.1fs elapsed)", list(chunk.keys()), elapsed)
             for node_name, node_output in chunk.items():
                 agent_key = _NODE_TO_AGENT.get(node_name)
+                log.info("NODE COMPLETE: %-22s  (%.1fs)", node_name, elapsed)
                 if agent_key is None:
+                    log.warning("  unknown node %r — skipping", node_name)
                     continue
+
+                error_in_output = node_output.get("error")
+                if error_in_output:
+                    log.error("  node %s reported error: %s", node_name, error_in_output)
 
                 # Merge into final_state
                 final_state.update(node_output)
@@ -98,6 +118,7 @@ async def _stream_graph(request: QueryRequest) -> AsyncGenerator[dict, None]:
                 trace = (node_output.get("agent_traces") or {}).get(agent_key, "")
                 output_key = _OUTPUT_KEYS[agent_key]
                 raw_output = node_output.get(output_key, "")
+                log.debug("  output_key=%s  len=%d", output_key, len(str(raw_output)))
 
                 if agent_key == "risk_analyst":
                     # Serialize dict for the frontend
@@ -129,11 +150,14 @@ async def _stream_graph(request: QueryRequest) -> AsyncGenerator[dict, None]:
                         "output": raw_output,
                         "trace": trace,
                     })
+                log.info("  SSE emitted for %s", agent_key)
 
     except Exception as exc:
+        log.exception("GRAPH ERROR after %.1fs: %s", time.perf_counter() - t0, exc)
         yield _sse("error", {"message": str(exc)})
         return
 
+    log.info("─── QUERY DONE in %.1fs", time.perf_counter() - t0)
     yield _sse("done", {})
 
     # ── Persist to DB (best-effort) ──
@@ -175,7 +199,10 @@ async def _stream_graph(request: QueryRequest) -> AsyncGenerator[dict, None]:
 
 @app.post("/api/query")
 async def query(request: QueryRequest):
-    return EventSourceResponse(_stream_graph(request))
+    return EventSourceResponse(
+        _stream_graph(request),
+        headers={"X-Accel-Buffering": "no"},
+    )
 
 
 @app.get("/api/history")
@@ -189,7 +216,7 @@ def get_history(db: DBSession = Depends(get_db)):
     return [
         {
             "id": s.id,
-            "created_at": s.created_at.isoformat(),
+            "created_at": s.created_at.isoformat() + "Z",
             "question": s.question,
             "final_verdict": s.final_verdict,
             "overall_risk_level": s.overall_risk_level,

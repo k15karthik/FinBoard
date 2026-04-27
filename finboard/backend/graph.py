@@ -4,7 +4,7 @@ import os
 import operator
 from typing import TypedDict, Annotated
 
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph, END, START
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
@@ -36,6 +36,7 @@ _synthesizer_llm = ChatOpenAI(
     model="gpt-4o",
     temperature=0.3,
     openai_api_key=os.getenv("OPENAI_API_KEY"),
+    request_timeout=30,
 )
 
 
@@ -188,7 +189,10 @@ Write 3–5 paragraphs. Be direct and actionable. Acknowledge where advisors dis
 # ─── Conditional edge ─────────────────────────────────────────────────────────
 
 def should_revise(state: FinBoardState) -> str:
-    if state.get("requires_revision") and state.get("revision_count", 0) < 3:
+    critique = state.get("risk_critique") or {}
+    risks = critique.get("risks", [])
+    has_critical = any(r.get("severity", 0) >= 5 for r in risks)
+    if has_critical and state.get("revision_count", 0) < 2:
         return "investment_advisor"
     return "synthesizer"
 
@@ -203,8 +207,11 @@ builder.add_node("investment_advisor", investment_advisor_node)
 builder.add_node("risk_analyst", risk_analyst_node)
 builder.add_node("synthesizer", synthesizer_node)
 
-builder.set_entry_point("economic_news")
-builder.add_edge("economic_news", "budget_planner")
+# economic_news and budget_planner have no mutual dependency — run in parallel
+builder.add_edge(START, "economic_news")
+builder.add_edge(START, "budget_planner")
+# investment_advisor waits for both to complete (LangGraph fan-in)
+builder.add_edge("economic_news", "investment_advisor")
 builder.add_edge("budget_planner", "investment_advisor")
 builder.add_edge("investment_advisor", "risk_analyst")
 builder.add_conditional_edges("risk_analyst", should_revise)

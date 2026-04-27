@@ -10,6 +10,7 @@ llm = ChatOpenAI(
     model="gpt-4o",
     temperature=0.3,
     openai_api_key=os.getenv("OPENAI_API_KEY"),
+    request_timeout=30,
 )
 
 

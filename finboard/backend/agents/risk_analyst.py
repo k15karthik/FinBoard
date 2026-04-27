@@ -6,9 +6,10 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
 llm = ChatOpenAI(
-    model="gpt-4o",
+    model="gpt-4o-mini",
     temperature=0.1,  # more deterministic for critique
     openai_api_key=os.getenv("OPENAI_API_KEY"),
+    request_timeout=30,
 )
 
 _SYSTEM_PROMPT = (
@@ -119,10 +120,9 @@ async def run_risk_analyst_agent(
             }
             return {"risk_critique": fallback, "trace": "\n".join(trace_lines)}
 
-    # Validate and enforce requires_revision logic
+    # Only trigger revision for truly critical severity (5/5), not merely high (4/5)
     risks = parsed.get("risks", [])
-    has_high_severity = any(r.get("severity", 0) >= 4 for r in risks)
-    parsed["requires_revision"] = has_high_severity
+    parsed["requires_revision"] = any(r.get("severity", 0) >= 5 for r in risks)
 
     trace_lines.append(
         f"OBSERVATION: Parsed {len(risks)} risks. "

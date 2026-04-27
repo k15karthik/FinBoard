@@ -1,6 +1,7 @@
 """Market data tools using yfinance — never raises, always returns error field."""
 
 import yfinance as yf
+from concurrent.futures import ThreadPoolExecutor
 
 
 _GOAL_TICKER_MAP = {
@@ -67,8 +68,9 @@ def get_ticker_summary(ticker: str) -> dict:
 
 
 def get_multiple_tickers(tickers: list) -> list:
-    """Calls get_ticker_summary for each ticker and returns a list of dicts."""
-    return [get_ticker_summary(t) for t in tickers]
+    """Fetches all tickers concurrently and returns a list of dicts."""
+    with ThreadPoolExecutor(max_workers=len(tickers)) as pool:
+        return list(pool.map(get_ticker_summary, tickers))
 
 
 def suggest_tickers_for_goal(goal_keywords: str) -> list:

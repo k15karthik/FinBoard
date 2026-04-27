@@ -11,7 +11,7 @@ from tools.budget_math import (
 )
 
 llm = ChatOpenAI(
-    model="gpt-4o",
+    model="gpt-4o-mini",
     temperature=0.3,
     openai_api_key=os.getenv("OPENAI_API_KEY"),
 )

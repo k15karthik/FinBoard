@@ -16,7 +16,7 @@ export default function App() {
   const [traceTab, setTraceTab]   = useState(null)
 
   const {
-    submit, loadHistory,
+    submit, loadDemo, loadHistory,
     agentOutputs, finalVerdict, riskCritique,
     revisionCount, isLoading, error,
   } = useFinBoard()
@@ -81,12 +81,14 @@ export default function App() {
                 display: 'flex', flexDirection: 'column',
                 overflowY: 'auto',
               }}>
-                <ChatInterface onSubmit={submit} isLoading={isLoading} />
+                <ChatInterface onSubmit={submit} onDemo={loadDemo} isLoading={isLoading} />
                 {finalVerdict && (
                   <div style={{ padding: '0 32px 32px' }}>
                     <BoardVerdict
                       finalVerdict={finalVerdict}
                       revisionCount={revisionCount}
+                      riskCritique={riskCritique}
+                      investmentOutput={agentOutputs?.investment_advisor?.output}
                       onViewTrace={() => handleViewTrace(null)}
                     />
                   </div>

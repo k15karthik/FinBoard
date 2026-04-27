@@ -109,15 +109,14 @@ const QUERY_MODES = [
 ]
 
 const BUDGET_FIELDS = [
-  { key: 'monthly_income',   label: 'Monthly Income',   placeholder: '5000'  },
-  { key: 'monthly_expenses', label: 'Monthly Expenses', placeholder: '3500'  },
-  { key: 'savings',          label: 'Total Savings',    placeholder: '12000' },
-  { key: 'total_debt',       label: 'Total Debt',       placeholder: '8000'  },
-  { key: 'emergency_fund',   label: 'Emergency Fund',   placeholder: '6000'  },
+  { key: 'income',         label: 'Monthly Income',   placeholder: '5000'  },
+  { key: 'expenses',       label: 'Monthly Expenses', placeholder: '3500'  },
+  { key: 'debt',           label: 'Total Debt',       placeholder: '8000'  },
+  { key: 'emergency_fund', label: 'Emergency Fund',   placeholder: '6000'  },
 ]
 
 /* ── Main component ──────────────────────────────────── */
-export function AnimatedAIChat({ onSubmit, isLoading }) {
+export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
   const [value, setValue]               = useState('')
   const [attachments, setAttachments]   = useState([])
   const [isTyping, setIsTyping]         = useState(false)
@@ -442,6 +441,26 @@ export function AnimatedAIChat({ onSubmit, isLoading }) {
                 )}
               </motion.button>
 
+              {/* Demo Mode button */}
+              {onDemo && !isLoading && (
+                <motion.button type="button"
+                  onClick={onDemo}
+                  whileTap={{ scale: 0.94 }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors"
+                  style={{
+                    border: '1px solid rgba(168,85,247,0.4)',
+                    color: 'var(--accent-purple-bright)',
+                    fontFamily: 'Inter, sans-serif', fontWeight: '500',
+                    background: 'rgba(124,58,237,0.08)', cursor: 'pointer',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(124,58,237,0.18)' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(124,58,237,0.08)' }}
+                >
+                  <Sparkles className="w-3 h-3" />
+                  Demo
+                </motion.button>
+              )}
+
               {isLoading && (
                 <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--accent-purple-bright)', fontFamily: 'Inter, sans-serif' }}>
                   <LoaderIcon className="w-3 h-3 animate-[spin_2s_linear_infinite]" />
@@ -546,7 +565,11 @@ export function AnimatedAIChat({ onSubmit, isLoading }) {
               key={label}
               label={label}
               disabled={isLoading}
-              onClick={() => { setValue(text); textareaRef.current?.focus() }}
+              onClick={() => {
+                if (isLoading) return
+                setValue(text)
+                onSubmit?.(text)
+              }}
               style={{ padding: '7px 14px', fontSize: '12px', minWidth: 'unset' }}
             />
           ))}
