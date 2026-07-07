@@ -16,9 +16,9 @@ function StatusChip({ status, revision }) {
       <div className="thinking-border" style={{
         display: 'inline-flex', alignItems: 'center', gap: '6px',
         padding: '3px 10px', borderRadius: '20px',
-        border: '1px solid var(--accent-purple)', fontSize: '11px',
-        fontFamily: 'Inter, sans-serif', color: 'var(--accent-purple-bright)',
-        background: 'rgba(124,58,237,0.1)',
+        border: '1px solid var(--accent-primary)', fontSize: '11px',
+        fontFamily: 'Inter, sans-serif', color: 'var(--accent-primary)',
+        background: 'rgba(249,115,22,0.08)',
       }}>
         <span className="thinking-dots"><span /><span /><span /></span>
         Thinking
@@ -75,13 +75,13 @@ function AgentCard({ agent, data, onViewTrace }) {
       className={isActive ? 'thinking-border' : ''}
       style={{
         borderLeft: `3px solid ${color}`,
-        boxShadow: isActive ? '0 0 20px rgba(124,58,237,0.2)' : 'none',
-        transition: 'box-shadow 0.3s',
+        boxShadow: isActive ? '0 0 0 2px rgba(249,115,22,0.15), 0 2px 8px rgba(0,0,0,0.06)' : '0 1px 3px rgba(0,0,0,0.06)',
+        transition: 'box-shadow 0.2s',
         cursor: hasOutput ? 'pointer' : 'default',
       }}
       onClick={() => hasOutput && setExpanded(v => !v)}
-      onMouseEnter={e => { e.currentTarget.style.boxShadow = `0 0 20px rgba(124,58,237,0.25)` }}
-      onMouseLeave={e => { e.currentTarget.style.boxShadow = isActive ? '0 0 20px rgba(124,58,237,0.2)' : 'none' }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow = `0 0 0 2px rgba(249,115,22,0.2), 0 4px 12px rgba(0,0,0,0.08)` }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow = isActive ? '0 0 0 2px rgba(249,115,22,0.15), 0 2px 8px rgba(0,0,0,0.06)' : '0 1px 3px rgba(0,0,0,0.06)' }}
     >
       <CardHeader className="pb-3" style={{ padding: '16px 18px 10px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>

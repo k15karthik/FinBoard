@@ -1,62 +1,47 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-/* Animated rotating border button */
+/* Primary CTA button — solid orange, white text, smooth hover */
 export function BorderButton({ children, className, onClick, disabled, type = "button", ...props }) {
-  return (
-    <div
-      className={cn("relative inline-flex rounded-lg p-[1px] overflow-hidden", className)}
-      style={{ display: 'inline-flex' }}
-    >
-      {/* Rotating conic gradient border */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: '-1px',
-          borderRadius: 'inherit',
-          background: 'conic-gradient(from var(--angle, 0deg), var(--accent-purple), var(--accent-purple-bright), var(--accent-violet), var(--accent-purple))',
-          animation: 'border-rotate 3s linear infinite',
-          zIndex: 0,
-        }}
-      />
-      <button
-        type={type}
-        onClick={onClick}
-        disabled={disabled}
-        className="relative z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-          padding: '10px 22px',
-          borderRadius: '7px',
-          background: 'var(--bg-base)',
-          color: disabled ? 'var(--text-muted)' : 'var(--text-primary)',
-          fontFamily: 'Space Grotesk, sans-serif',
-          fontSize: '14px',
-          fontWeight: '600',
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          border: 'none',
-          letterSpacing: '0.01em',
-          opacity: disabled ? 0.5 : 1,
-          whiteSpace: 'nowrap',
-        }}
-        {...props}
-      >
-        {children}
-      </button>
-    </div>
-  )
-}
+  const [hovered, setHovered] = React.useState(false)
 
-export function ButtonBorderDemo() {
   return (
-    <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', padding: '24px' }}>
-      <BorderButton>Convene the Board</BorderButton>
-      <BorderButton disabled>Deliberating...</BorderButton>
-    </div>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={cn("focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60 focus-visible:ring-offset-1", className)}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+        padding: '10px 22px',
+        borderRadius: '8px',
+        background: disabled ? '#ECECEC' : hovered ? '#EA580C' : '#F97316',
+        color: disabled ? '#9CA3AF' : 'white',
+        fontFamily: 'Space Grotesk, sans-serif',
+        fontSize: '14px',
+        fontWeight: '600',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        border: 'none',
+        letterSpacing: '0.01em',
+        opacity: disabled ? 0.7 : 1,
+        whiteSpace: 'nowrap',
+        boxShadow: disabled
+          ? 'none'
+          : hovered
+            ? '0 4px 12px rgba(249, 115, 22, 0.35)'
+            : '0 2px 6px rgba(249, 115, 22, 0.2)',
+        transform: hovered && !disabled ? 'translateY(-1px)' : 'translateY(0)',
+        transition: 'background 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease',
+      }}
+      {...props}
+    >
+      {children}
+    </button>
   )
 }
 

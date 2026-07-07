@@ -97,7 +97,7 @@ export default function ReasoningTrace({ agentOutputs, isOpen, onClose, defaultT
             style={{
               position: 'fixed',
               inset: 0,
-              background: 'rgba(5, 5, 8, 0.5)',
+              background: 'rgba(0, 0, 0, 0.25)',
               zIndex: 40,
             }}
           />
@@ -115,20 +115,21 @@ export default function ReasoningTrace({ agentOutputs, isOpen, onClose, defaultT
               right: 0,
               bottom: 0,
               width: '380px',
-              background: 'rgba(13, 13, 20, 0.97)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              borderLeft: '1px solid var(--border-bright)',
+              background: 'rgba(255, 255, 255, 0.98)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              borderLeft: '1px solid var(--border)',
+              boxShadow: '-8px 0 32px rgba(0,0,0,0.08)',
               zIndex: 50,
               display: 'flex',
               flexDirection: 'column',
               overflow: 'hidden',
             }}
           >
-            {/* Purple gradient top border */}
+            {/* Orange accent top border */}
             <div style={{
               height: '2px',
-              background: 'linear-gradient(90deg, #7c3aed, #a855f7, #c084fc)',
+              background: 'linear-gradient(90deg, #F97316, #EA580C, #FB923C)',
               flexShrink: 0,
             }} />
 
@@ -176,8 +177,8 @@ export default function ReasoningTrace({ agentOutputs, isOpen, onClose, defaultT
                   transition: 'border-color 0.15s, color 0.15s',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'var(--accent-purple)'
-                  e.currentTarget.style.color = 'var(--accent-purple-bright)'
+                  e.currentTarget.style.borderColor = 'var(--accent-primary)'
+                  e.currentTarget.style.color = 'var(--accent-primary)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.borderColor = 'var(--border-bright)'
@@ -210,7 +211,7 @@ export default function ReasoningTrace({ agentOutputs, isOpen, onClose, defaultT
                       padding: '10px 14px',
                       background: 'none',
                       border: 'none',
-                      borderBottom: isActive ? `2px solid var(--accent-purple-bright)` : '2px solid transparent',
+                      borderBottom: isActive ? `2px solid var(--accent-primary)` : '2px solid transparent',
                       color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '12px',
@@ -221,7 +222,7 @@ export default function ReasoningTrace({ agentOutputs, isOpen, onClose, defaultT
                       opacity: hasTrace ? 1 : 0.5,
                     }}
                   >
-                    <Icon size={11} color={isActive ? 'var(--accent-purple-bright)' : color} />
+                    <Icon size={11} color={isActive ? 'var(--accent-primary)' : color} />
                     {name}
                     {hasTrace && !isActive && (
                       <span style={{

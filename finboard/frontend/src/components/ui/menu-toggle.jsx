@@ -13,9 +13,9 @@ export function MenuToggle({ isOpen, onToggle, className }) {
         className
       )}
       style={{
-        background: isOpen ? 'rgba(124, 58, 237, 0.15)' : 'transparent',
+        background: isOpen ? 'rgba(249, 115, 22, 0.08)' : 'transparent',
         border: '1px solid',
-        borderColor: isOpen ? 'var(--accent-purple)' : 'var(--border-bright)',
+        borderColor: isOpen ? 'var(--accent-primary)' : 'var(--border-bright)',
         color: 'var(--text-secondary)',
         cursor: 'pointer',
       }}

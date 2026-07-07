@@ -21,7 +21,7 @@ const SEVERITY_COLOR = (s) => {
   return 'var(--accent-red)'
 }
 
-const DONUT_COLORS = ['#a855f7', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#c084fc']
+const DONUT_COLORS = ['#F97316', '#2563EB', '#16A34A', '#F59E0B', '#DC2626', '#0EA5E9']
 
 function parseAllocation(text) {
   if (!text) return []
@@ -55,13 +55,14 @@ const DonutTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--bg-elevated)',
-      border: '1px solid var(--border-bright)',
+      background: 'var(--bg-surface)',
+      border: '1px solid var(--border)',
       borderRadius: '8px',
       padding: '6px 12px',
       fontFamily: 'JetBrains Mono, monospace',
       fontSize: '11px',
       color: 'var(--text-primary)',
+      boxShadow: 'var(--shadow-sm)',
     }}>
       {payload[0].name}: <strong>{payload[0].value}%</strong>
     </div>
@@ -73,7 +74,7 @@ function MetricPill({ label, value, color }) {
     <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: '10px 16px', borderRadius: '8px',
-      background: 'var(--bg-surface)', border: '1px solid var(--border)',
+      background: 'var(--bg-elevated)', border: '1px solid var(--border)',
       flex: 1, minWidth: 0,
     }}>
       <span style={{
@@ -178,12 +179,10 @@ export default function BoardVerdict({
       transition={{ duration: 0.5, ease: 'easeOut' }}
       style={{
         background: 'var(--bg-card)',
-        border: '1px solid var(--border-bright)',
+        border: '1px solid var(--border)',
         borderRadius: '12px',
         padding: '24px',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        boxShadow: '0 0 30px rgba(124, 58, 237, 0.15)',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
         marginTop: '8px',
       }}
     >
@@ -192,7 +191,7 @@ export default function BoardVerdict({
         <h2 style={{
           fontFamily: 'Space Grotesk, sans-serif',
           fontSize: '26px', fontWeight: '700', letterSpacing: '-0.02em',
-          background: 'linear-gradient(135deg, #a855f7, #7c3aed)',
+          background: 'linear-gradient(135deg, #1F2937, #F97316)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
         }}>
           Board Verdict
@@ -215,8 +214,8 @@ export default function BoardVerdict({
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '4px',
               padding: '5px 10px', borderRadius: '20px',
-              background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)',
-              color: 'var(--accent-purple-glow)', fontSize: '11px', fontFamily: 'Inter, sans-serif',
+              background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.25)',
+              color: 'var(--accent-primary)', fontSize: '11px', fontFamily: 'Inter, sans-serif',
             }}>
               <RefreshCw size={11} />
               Revised {revisionCount}×
@@ -232,14 +231,14 @@ export default function BoardVerdict({
         <MetricPill label="Risk Level" value={riskLevel} color={riskColor} />
         {confidence && <MetricPill label="Confidence" value={confidence} color="var(--accent-blue)" />}
         {horizon && <MetricPill label="Horizon" value={horizon} color="var(--accent-green)" />}
-        {revisionCount > 0 && <MetricPill label="Revisions" value={`${revisionCount}`} color="var(--accent-purple-bright)" />}
+        {revisionCount > 0 && <MetricPill label="Revisions" value={`${revisionCount}`} color="var(--accent-primary)" />}
       </div>
 
       {/* ── Executive summary (first paragraph, highlighted) ── */}
       {summary && (
         <div style={{
-          background: 'rgba(124,58,237,0.07)',
-          border: '1px solid rgba(124,58,237,0.2)',
+          background: 'rgba(249,115,22,0.04)',
+          border: '1px solid rgba(249,115,22,0.15)',
           borderRadius: '8px',
           padding: '14px 16px',
           marginBottom: '16px',
@@ -283,7 +282,7 @@ export default function BoardVerdict({
               borderRadius: '10px', padding: '16px',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
-                <TrendingUp size={13} color="var(--accent-purple-bright)" />
+                <TrendingUp size={13} color="var(--accent-primary)" />
                 <span style={{
                   fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', fontWeight: '600',
                   color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em',
@@ -364,12 +363,13 @@ export default function BoardVerdict({
         style={{
           display: 'inline-flex', alignItems: 'center', gap: '8px',
           padding: '10px 20px',
-          background: 'linear-gradient(135deg, #7c3aed, #a855f7)',
+          background: '#F97316',
           border: 'none', borderRadius: '8px', color: 'white',
           fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px',
           fontWeight: '600', cursor: 'pointer',
-          boxShadow: '0 0 20px rgba(124, 58, 237, 0.35)',
+          boxShadow: '0 2px 8px rgba(249, 115, 22, 0.25)',
           letterSpacing: '0.01em',
+          transition: 'background 0.15s, box-shadow 0.15s',
         }}
       >
         View Board Reasoning

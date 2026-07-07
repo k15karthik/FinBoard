@@ -1,5 +1,5 @@
 /* =====================================================
-   FinBoard Global Styles — Startup Dark Theme
+   FinBoard Global Styles — Industrial Light Theme
    ===================================================== */
 
 @tailwind base;
@@ -8,26 +8,44 @@
 
 /* ── CSS Variables ─────────────────────────────────── */
 :root {
-  --bg-base:             #050508;
-  --bg-surface:          #0d0d14;
-  --bg-card:             #13131f;
-  --bg-elevated:         #1a1a2e;
-  --border:              #1e1e35;
-  --border-bright:       #2d2d50;
-  --text-primary:        #f0f0ff;
-  --text-secondary:      #8888bb;
-  --text-muted:          #4a4a6a;
-  --accent-purple:       #7c3aed;
-  --accent-purple-bright:#a855f7;
-  --accent-purple-glow:  #c084fc;
-  --accent-violet:       #6d28d9;
-  --accent-green:        #10b981;
-  --accent-red:          #ef4444;
-  --accent-amber:        #f59e0b;
-  --accent-blue:         #3b82f6;
-  --glow-purple:         0 0 20px rgba(124, 58, 237, 0.3);
-  --glow-green:          0 0 15px rgba(16, 185, 129, 0.2);
-  --glow-red:            0 0 15px rgba(239, 68, 68, 0.25);
+  /* Surfaces */
+  --bg-base:             #F5F5F5;
+  --bg-surface:          #FFFFFF;
+  --bg-card:             #FFFFFF;
+  --bg-elevated:         #ECECEC;
+
+  /* Borders */
+  --border:              #D9D9D9;
+  --border-bright:       #C4C4C4;
+
+  /* Text */
+  --text-primary:        #1F2937;
+  --text-secondary:      #6B7280;
+  --text-muted:          #9CA3AF;
+
+  /* Primary accent — orange */
+  --accent-primary:      #F97316;
+  --accent-primary-hover:#EA580C;
+  --accent-primary-soft: #FFF7ED;
+
+  /* Legacy aliases — kept so existing components pick up orange automatically */
+  --accent-purple:       #F97316;
+  --accent-purple-bright:#EA580C;
+  --accent-purple-glow:  #FB923C;
+  --accent-violet:       #C2410C;
+
+  /* Status */
+  --accent-green:        #16A34A;
+  --accent-red:          #DC2626;
+  --accent-amber:        #F59E0B;
+  --accent-blue:         #2563EB;
+
+  /* Shadows */
+  --shadow-sm:           0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md:           0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
+  --glow-purple:         0 4px 12px rgba(249, 115, 22, 0.15);
+  --glow-green:          0 0 8px rgba(22, 163, 74, 0.15);
+  --glow-red:            0 0 8px rgba(220, 38, 38, 0.15);
 }
 
 /* ── Reset ─────────────────────────────────────────── */
@@ -51,9 +69,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 
-  /* Subtle dot-grid pattern */
+  /* Subtle dark dot-grid on light gray — Linear/Notion style */
   background-image:
-    radial-gradient(circle, rgba(124, 58, 237, 0.12) 1px, transparent 1px);
+    radial-gradient(circle, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
@@ -67,18 +85,18 @@ body {
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-surface);
+  background: var(--bg-elevated);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--accent-violet);
+  background: var(--border-bright);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-purple-bright);
+  background: var(--accent-primary);
 }
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--accent-violet) var(--bg-surface);
+  scrollbar-color: var(--border-bright) var(--bg-elevated);
 }
 
 /* ── Typography helpers ────────────────────────────── */
@@ -87,24 +105,23 @@ body {
 .font-sans    { font-family: 'Inter', sans-serif; }
 
 .gradient-text {
-  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  background: linear-gradient(135deg, #1F2937, #F97316);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ── Card / Glass helpers ──────────────────────────── */
+/* ── Card helpers ──────────────────────────────────── */
 .glass-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
 }
 
 .glass-card:hover {
   border-color: var(--border-bright);
-  box-shadow: var(--glow-purple);
+  box-shadow: var(--shadow-md);
 }
 
 /* ── Animations ────────────────────────────────────── */
@@ -125,7 +142,7 @@ body {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--accent-purple-bright);
+  background: var(--accent-primary);
   animation: thinking-bounce 1.2s ease-in-out infinite;
 }
 .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
@@ -133,14 +150,14 @@ body {
 
 /* Critical pulse for CRITICAL risk badge */
 @keyframes critical-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
-  50%       { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
 }
 .critical-pulse {
   animation: critical-pulse 1.5s ease-in-out infinite;
 }
 
-/* Skeleton shimmer */
+/* Skeleton shimmer — light theme */
 @keyframes shimmer {
   0%   { background-position: -400px 0; }
   100% { background-position: 400px 0; }
@@ -148,9 +165,9 @@ body {
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--bg-card) 25%,
-    var(--bg-elevated) 50%,
-    var(--bg-card) 75%
+    var(--bg-elevated) 25%,
+    var(--border)      50%,
+    var(--bg-elevated) 75%
   );
   background-size: 400px 100%;
   animation: shimmer 1.4s ease-in-out infinite;
@@ -164,10 +181,10 @@ body {
 }
 .spin { animation: spin 0.8s linear infinite; }
 
-/* Purple border pulse (THINKING state) */
+/* Orange border pulse (THINKING state) */
 @keyframes border-glow {
-  0%, 100% { border-color: var(--accent-purple); box-shadow: 0 0 8px rgba(124, 58, 237, 0.3); }
-  50%       { border-color: var(--accent-purple-bright); box-shadow: 0 0 16px rgba(168, 85, 247, 0.5); }
+  0%, 100% { border-color: var(--accent-primary);       box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.12); }
+  50%       { border-color: var(--accent-primary-hover); box-shadow: 0 0 0 3px rgba(234,  88, 12, 0.18); }
 }
 .thinking-border {
   animation: border-glow 2s ease-in-out infinite;
@@ -175,9 +192,9 @@ body {
 
 /* ── Trace line coloring ───────────────────────────── */
 .trace-line { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
-.trace-thought      { color: var(--accent-blue); }
-.trace-action       { color: var(--accent-amber); }
-.trace-observation  { color: var(--accent-green); }
+.trace-thought      { color: #2563EB; }   /* blue — readable on white */
+.trace-action       { color: #B45309; }   /* amber-700 — readable on white */
+.trace-observation  { color: #16A34A; }   /* green */
 .trace-default      { color: var(--text-secondary); }
 
 /* ── Reduced motion ────────────────────────────────── */
@@ -191,7 +208,7 @@ body {
 
 /* ── Focus ring ────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--accent-purple-bright);
+  outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
 
@@ -199,7 +216,7 @@ body {
 .gradient-hr {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-purple), var(--accent-purple-bright), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-primary-hover), transparent);
   margin: 12px 0;
 }
 

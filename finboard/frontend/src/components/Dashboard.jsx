@@ -9,12 +9,12 @@ import { SubscriptionCard } from './ui/subscription-card'
 import { Card, CardHeader, CardContent, CardTitle } from './ui/card'
 
 const DONUT_COLORS = [
-  'var(--accent-purple-bright)',
-  'var(--accent-blue)',
-  'var(--accent-green)',
-  'var(--accent-amber)',
-  'var(--accent-red)',
-  '#c084fc',
+  '#F97316',   /* orange — primary accent */
+  '#2563EB',   /* blue */
+  '#16A34A',   /* green */
+  '#F59E0B',   /* amber */
+  '#DC2626',   /* red */
+  '#0EA5E9',   /* sky */
 ]
 
 const severityColor = (severity) => {
@@ -51,23 +51,24 @@ const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{
-      background: 'var(--bg-elevated)',
-      border: '1px solid var(--border-bright)',
+      background: 'var(--bg-surface)',
+      border: '1px solid var(--border)',
       borderRadius: '8px',
       padding: '8px 14px',
       fontFamily: 'JetBrains Mono, monospace',
       fontSize: '12px',
       color: 'var(--text-primary)',
+      boxShadow: 'var(--shadow-sm)',
     }}>
       <div>{payload[0].name}</div>
-      <div style={{ color: 'var(--accent-purple-bright)', fontWeight: 600 }}>
+      <div style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>
         {payload[0].value}{typeof payload[0].value === 'number' && payload[0].name !== 'severity' ? '%' : ''}
       </div>
     </div>
   )
 }
 
-function ProgressBar({ label, value, max = 100, color = 'var(--accent-purple)' }) {
+function ProgressBar({ label, value, max = 100, color = 'var(--accent-primary)' }) {
   const pct = Math.min(100, Math.max(0, (value / max) * 100))
   return (
     <div style={{ marginBottom: '14px' }}>
@@ -106,7 +107,7 @@ function SectionCard({ title, children, icon: Icon }) {
     <Card>
       <CardHeader style={{ padding: '18px 20px 12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {Icon && <Icon size={14} color="var(--accent-purple-bright)" />}
+          {Icon && <Icon size={14} color="var(--accent-primary)" />}
           <CardTitle style={{
             fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', fontWeight: '600',
             color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.07em',
@@ -142,7 +143,7 @@ export default function Dashboard({ agentOutputs, riskCritique, loadHistory }) {
   const budgetMetrics = [
     { label: 'Monthly Income',    value: 5000,  max: 10000, color: 'var(--accent-green)' },
     { label: 'Monthly Expenses',  value: 3200,  max: 10000, color: 'var(--accent-amber)' },
-    { label: 'Savings Rate',      value: 36,    max: 100,   color: 'var(--accent-purple-bright)' },
+    { label: 'Savings Rate',      value: 36,    max: 100,   color: 'var(--accent-primary)' },
   ]
 
   return (
@@ -274,8 +275,8 @@ export default function Dashboard({ agentOutputs, riskCritique, loadHistory }) {
               transition: 'color 0.15s, border-color 0.15s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.color = 'var(--accent-purple-bright)'
-              e.currentTarget.style.borderColor = 'var(--accent-purple)'
+              e.currentTarget.style.color = 'var(--accent-primary)'
+              e.currentTarget.style.borderColor = 'var(--accent-primary)'
             }}
             onMouseLeave={e => {
               e.currentTarget.style.color = 'var(--text-muted)'

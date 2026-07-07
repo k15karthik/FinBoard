@@ -28,10 +28,34 @@ async def run_budget_planner_agent(question: str, budget_data: dict, news_briefi
     trace_lines = []
 
     if not budget_data:
-        return {
-            "feasibility_report": "VERDICT: UNKNOWN — No budget data provided.",
-            "trace": "OBSERVATION: budget_data was empty or null — skipping analysis.",
-        }
+        trace_lines = []
+        trace_lines.append("THOUGHT: No budget data was provided. I will give a qualitative assessment based on the question and macroeconomic context.")
+        trace_lines.append("ACTION: gpt-4o qualitative feasibility reasoning (no budget figures available)")
+
+        prompt = f"""You are a personal finance advisor. The user has not provided specific budget figures, so give a qualitative assessment of their financial question based on general financial principles and the current macroeconomic context.
+
+USER QUESTION: {question}
+
+MACROECONOMIC CONTEXT:
+{news_briefing[:600]}
+
+Respond with one of these exact verdict lines first, then 3–5 sentences of general guidance:
+VERDICT: FEASIBLE
+VERDICT: PARTIALLY FEASIBLE
+VERDICT: NOT FEASIBLE"""
+
+        messages = [
+            SystemMessage(content="You are a careful personal finance advisor who gives clear, actionable verdicts."),
+            HumanMessage(content=prompt),
+        ]
+        response = await llm.ainvoke(messages)
+        feasibility_report = response.content.strip()
+        trace_lines.append(f"OBSERVATION: LLM returned qualitative feasibility report ({len(feasibility_report)} chars)")
+
+        if "VERDICT:" not in feasibility_report:
+            feasibility_report = "VERDICT: PARTIALLY FEASIBLE\n\n" + feasibility_report
+
+        return {"feasibility_report": feasibility_report, "trace": "\n".join(trace_lines)}
 
     income = float(budget_data.get("income", 0))
     expenses = float(budget_data.get("expenses", 0))

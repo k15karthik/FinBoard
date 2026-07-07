@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-/* AnimatedButton — slide-up reveal label on hover */
+/* AnimatedButton — secondary action chip, orange on hover */
 export function AnimatedButton({ label = "Submit", onClick, disabled, className, type = "button", ...props }) {
   const [hovered, setHovered] = React.useState(false)
 
@@ -14,47 +14,34 @@ export function AnimatedButton({ label = "Submit", onClick, disabled, className,
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
-        "relative overflow-hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "relative overflow-hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60",
         className
       )}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '10px 22px',
+        padding: '8px 16px',
         background: disabled
           ? 'var(--bg-elevated)'
-          : 'linear-gradient(135deg, var(--accent-violet), var(--accent-purple))',
-        border: '1px solid transparent',
+          : hovered
+            ? 'rgba(249, 115, 22, 0.06)'
+            : 'var(--bg-surface)',
+        border: `1px solid ${disabled ? 'var(--border)' : hovered ? '#F97316' : 'var(--border)'}`,
         borderRadius: '8px',
-        color: disabled ? 'var(--text-muted)' : 'white',
+        color: disabled ? 'var(--text-muted)' : hovered ? 'var(--accent-primary)' : 'var(--text-secondary)',
         fontFamily: 'Space Grotesk, sans-serif',
-        fontSize: '14px',
-        fontWeight: '600',
+        fontSize: '13px',
+        fontWeight: '500',
         cursor: disabled ? 'not-allowed' : 'pointer',
         letterSpacing: '0.01em',
-        boxShadow: disabled || !hovered
-          ? 'none'
-          : '0 0 28px rgba(124, 58, 237, 0.55)',
-        transition: 'box-shadow 0.2s, opacity 0.2s',
+        boxShadow: 'none',
+        transition: 'background 0.15s ease, border-color 0.15s ease, color 0.15s ease',
         opacity: disabled ? 0.5 : 1,
-        minWidth: '120px',
+        minWidth: '80px',
       }}
       {...props}
     >
-      {/* Background shine sweep */}
-      <span
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%)',
-          transform: hovered ? 'translateX(100%)' : 'translateX(-100%)',
-          transition: 'transform 0.5s ease',
-          pointerEvents: 'none',
-        }}
-      />
-      {/* Label */}
       <span style={{ position: 'relative', zIndex: 1 }}>
         {label}
       </span>

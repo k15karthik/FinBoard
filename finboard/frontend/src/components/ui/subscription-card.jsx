@@ -16,7 +16,7 @@ const DEFAULT_DATA = [
 
 export function SubscriptionCard({ data, title = "Portfolio Activity", stat = "+2,350", change = "+80.1% from last month", className }) {
   const chartData = (data && data.length) ? data : DEFAULT_DATA
-  const barColor = "var(--accent-purple-bright)"
+  const barColor = "var(--accent-primary)"
 
   return (
     <Card className={cn("w-full", className)}>

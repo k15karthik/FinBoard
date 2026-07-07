@@ -29,22 +29,11 @@ export default function App() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-base)', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
 
-      {/* Subtle background — opacity capped at 0.07 so content stays readable */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', opacity: 0.07 }}>
-        <EtheralShadow
-          color="rgba(124, 58, 237, 1)"
-          animation={{ scale: 70, speed: 40 }}
-          noise={{ opacity: 0.5, scale: 1.0 }}
-          sizing="fill"
-          style={{ position: 'absolute', inset: 0 }}
-        />
-      </div>
-
-      {/* Hard radial glow at top-center — more controlled than turbulence */}
+      {/* Subtle warm glow at top — very low opacity for enterprise cleanliness */}
       <div style={{
-        position: 'fixed', top: '-200px', left: '50%', transform: 'translateX(-50%)',
-        width: '900px', height: '600px', borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.12) 0%, transparent 70%)',
+        position: 'fixed', top: '-300px', left: '50%', transform: 'translateX(-50%)',
+        width: '800px', height: '500px', borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, rgba(249,115,22,0.05) 0%, transparent 70%)',
         pointerEvents: 'none', zIndex: 0,
       }} />
 
@@ -100,7 +89,7 @@ export default function App() {
                 <AgentPanel agentOutputs={agentOutputs} onViewTrace={handleViewTrace} />
               </div>
             </motion.div>
-          )}
+            )}
 
           {view === 'dashboard' && (
             <motion.div key="dashboard"
@@ -164,7 +153,7 @@ function HistoryView({ loadHistory }) {
             background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '10px',
             padding: '16px 18px', cursor: 'pointer', transition: 'border-color 0.15s, box-shadow 0.15s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(124,58,237,0.4)'; e.currentTarget.style.boxShadow = '0 0 16px rgba(124,58,237,0.12)' }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(249,115,22,0.4)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(249,115,22,0.08)' }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none' }}
         >
           <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--text-primary)', marginBottom: '6px' }}>

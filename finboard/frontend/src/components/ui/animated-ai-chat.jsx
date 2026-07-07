@@ -64,7 +64,7 @@ const Textarea = React.forwardRef(({ className, containerClassName, showRing = t
       />
       {showRing && isFocused && (
         <motion.span
-          className="absolute inset-0 rounded-md pointer-events-none ring-2 ring-offset-0 ring-violet-500/30"
+          className="absolute inset-0 rounded-md pointer-events-none ring-2 ring-offset-0 ring-orange-400/40"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         />
@@ -82,7 +82,7 @@ function TypingDots() {
         <motion.div
           key={dot}
           className="w-1.5 h-1.5 rounded-full mx-0.5"
-          style={{ background: 'var(--accent-purple-bright)', boxShadow: '0 0 4px rgba(168,85,247,0.5)' }}
+          style={{ background: 'var(--accent-primary)' }}
           initial={{ opacity: 0.3 }}
           animate={{ opacity: [0.3, 0.9, 0.3], scale: [0.85, 1.1, 0.85] }}
           transition={{ duration: 1.2, repeat: Infinity, delay: dot * 0.15, ease: 'easeInOut' }}
@@ -231,7 +231,7 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
         >
           <h1 className="text-3xl font-medium tracking-tight pb-1"
             style={{
-              background: 'linear-gradient(135deg, rgba(240,240,255,0.95), rgba(168,85,247,0.7))',
+              background: 'linear-gradient(135deg, #1F2937 40%, #F97316)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
               fontFamily: 'Space Grotesk, sans-serif',
             }}
@@ -240,7 +240,7 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
           </h1>
           <motion.div
             className="h-px"
-            style={{ background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent)' }}
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(249,115,22,0.3), transparent)' }}
             initial={{ width: 0, opacity: 0 }} animate={{ width: '100%', opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
           />
@@ -253,11 +253,11 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.4 }}
-          className="relative backdrop-blur-2xl rounded-2xl border"
+          className="relative rounded-2xl border"
           style={{
-            background: 'rgba(19,19,31,0.85)',
-            borderColor: 'rgba(45,45,80,0.6)',
-            boxShadow: '0 0 40px rgba(124,58,237,0.12)',
+            background: 'rgba(255, 255, 255, 0.97)',
+            borderColor: 'var(--border)',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
           }}
         >
           {/* Mode selector row */}
@@ -293,9 +293,9 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                   margin: '8px 16px 0',
                   borderRadius: '8px',
                   overflow: 'hidden',
-                  background: 'rgba(13,13,20,0.97)',
-                  border: '1px solid rgba(45,45,80,0.8)',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
+                  background: 'rgba(255,255,255,0.99)',
+                  border: '1px solid var(--border)',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
                 }}
                 initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.15 }}
@@ -310,13 +310,13 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                           ? 'text-white'
                           : 'hover:text-white/80'
                       )}
-                      style={{ background: activeSuggestion === index ? 'rgba(124,58,237,0.2)' : 'transparent' }}
+                      style={{ background: activeSuggestion === index ? 'rgba(249,115,22,0.08)' : 'transparent' }}
                       onClick={() => selectCommandSuggestion(index)}
                       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                       transition={{ delay: index * 0.03 }}
                     >
                       <div className="w-5 h-5 flex items-center justify-center"
-                        style={{ color: 'var(--accent-purple-bright)' }}>
+                        style={{ color: 'var(--accent-primary)' }}>
                         {s.icon}
                       </div>
                       <div className="font-medium" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{s.label}</div>
@@ -349,10 +349,9 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                 'w-full px-4 py-3 resize-none bg-transparent border-none text-sm focus:outline-none min-h-[60px]',
               )}
               style={{
-                color: 'rgba(240,240,255,0.9)',
+                color: 'var(--text-primary)',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '15px',
-                '::placeholder': { color: 'rgba(74,74,106,1)' },
                 overflow: 'hidden',
               }}
               showRing={false}
@@ -372,7 +371,7 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                     key={index}
                     className="flex items-center gap-2 text-xs py-1.5 px-3 rounded-lg"
                     style={{
-                      background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)',
+                      background: 'rgba(249,115,22,0.07)', border: '1px solid rgba(249,115,22,0.2)',
                       color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace',
                     }}
                     initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
@@ -392,7 +391,7 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
 
           {/* Bottom toolbar */}
           <div className="p-4 flex items-center justify-between gap-4"
-            style={{ borderTop: '1px solid rgba(45,45,80,0.5)' }}>
+            style={{ borderTop: '1px solid var(--border)' }}>
             <div className="flex items-center gap-3">
               {/* Attach */}
               <motion.button type="button" onClick={handleAttachFile} whileTap={{ scale: 0.94 }}
@@ -410,8 +409,8 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                 whileTap={{ scale: 0.94 }}
                 className="p-2 rounded-lg transition-colors"
                 style={{
-                  color: showCommandPalette ? 'var(--accent-purple-bright)' : 'var(--text-muted)',
-                  background: showCommandPalette ? 'rgba(124,58,237,0.15)' : 'transparent',
+                  color: showCommandPalette ? 'var(--accent-primary)' : 'var(--text-muted)',
+                  background: showCommandPalette ? 'rgba(249,115,22,0.08)' : 'transparent',
                 }}
                 onMouseEnter={e => { if (!showCommandPalette) e.currentTarget.style.color = 'var(--text-primary)' }}
                 onMouseLeave={e => { if (!showCommandPalette) e.currentTarget.style.color = 'var(--text-muted)' }}
@@ -424,20 +423,20 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                 onClick={() => setShowBudget(v => !v)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors"
                 style={{
-                  border: '1px dashed rgba(45,45,80,0.8)',
-                  color: showBudget ? 'var(--accent-purple-bright)' : 'var(--text-muted)',
+                  border: '1px dashed var(--border-bright)',
+                  color: showBudget ? 'var(--accent-primary)' : 'var(--text-muted)',
                   fontFamily: 'Inter, sans-serif',
                   background: 'transparent',
                   cursor: 'pointer',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(45,45,80,0.8)' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(249,115,22,0.5)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-bright)' }}
               >
                 {showBudget ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                 Budget
                 {hasBudgetData && !showBudget && (
                   <span className="w-1.5 h-1.5 rounded-full"
-                    style={{ background: 'var(--accent-purple-bright)' }} />
+                    style={{ background: 'var(--accent-primary)' }} />
                 )}
               </motion.button>
 
@@ -448,13 +447,13 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                   whileTap={{ scale: 0.94 }}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-colors"
                   style={{
-                    border: '1px solid rgba(168,85,247,0.4)',
-                    color: 'var(--accent-purple-bright)',
+                    border: '1px solid rgba(249,115,22,0.35)',
+                    color: 'var(--accent-primary)',
                     fontFamily: 'Inter, sans-serif', fontWeight: '500',
-                    background: 'rgba(124,58,237,0.08)', cursor: 'pointer',
+                    background: 'rgba(249,115,22,0.06)', cursor: 'pointer',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(124,58,237,0.18)' }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(124,58,237,0.08)' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(249,115,22,0.12)' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(249,115,22,0.06)' }}
                 >
                   <Sparkles className="w-3 h-3" />
                   Demo
@@ -462,7 +461,7 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
               )}
 
               {isLoading && (
-                <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--accent-purple-bright)', fontFamily: 'Inter, sans-serif' }}>
+                <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--accent-primary)', fontFamily: 'Inter, sans-serif' }}>
                   <LoaderIcon className="w-3 h-3 animate-[spin_2s_linear_infinite]" />
                   Deliberating
                   <TypingDots />
@@ -495,8 +494,8 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                 <div style={{
                   display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
                   gap: '10px', margin: '0 16px 16px',
-                  padding: '14px', background: 'rgba(5,5,8,0.6)',
-                  border: '1px solid rgba(30,30,53,1)', borderRadius: '8px',
+                  padding: '14px', background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border)', borderRadius: '8px',
                 }}>
                   {BUDGET_FIELDS.map(({ key, label, placeholder }) => (
                     <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
@@ -522,7 +521,7 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
                             padding: '6px 9px 6px 20px', color: 'var(--text-primary)',
                             fontFamily: 'JetBrains Mono, monospace', fontSize: '12px', outline: 'none',
                           }}
-                          onFocus={e => { e.target.style.borderColor = 'var(--accent-purple)'; e.target.style.boxShadow = '0 0 0 2px rgba(124,58,237,0.2)' }}
+                          onFocus={e => { e.target.style.borderColor = 'var(--accent-primary)'; e.target.style.boxShadow = '0 0 0 2px rgba(249,115,22,0.15)' }}
                           onBlur={e => { e.target.style.borderColor = 'var(--border-bright)'; e.target.style.boxShadow = 'none' }}
                         />
                       </div>
@@ -546,17 +545,17 @@ export function AnimatedAIChat({ onSubmit, onDemo, isLoading }) {
               onClick={() => selectCommandSuggestion(index)}
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all relative group"
               style={{
-                background: 'rgba(19,19,31,0.6)', border: '1px solid rgba(45,45,80,0.5)',
+                background: 'var(--bg-surface)', border: '1px solid var(--border)',
                 color: 'var(--text-secondary)', fontFamily: 'Inter, sans-serif', cursor: 'pointer',
               }}
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.03, borderColor: 'rgba(124,58,237,0.5)' }}
+              whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-primary)' }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(249,115,22,0.4)'; e.currentTarget.style.color = 'var(--accent-primary)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
             >
-              <span style={{ color: 'var(--accent-purple-bright)' }}>{s.icon}</span>
+              <span style={{ color: 'var(--accent-primary)' }}>{s.icon}</span>
               <span>{s.label}</span>
             </motion.button>
           ))}

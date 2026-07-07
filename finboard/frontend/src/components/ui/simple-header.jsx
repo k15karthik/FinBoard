@@ -26,9 +26,9 @@ export function SimpleHeader({
         padding: '0 28px',
         height: '56px',
         borderBottom: '1px solid var(--border)',
-        background: 'rgba(13, 13, 20, 0.85)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
+        background: 'rgba(255, 255, 255, 0.92)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
         position: 'sticky',
         top: 0,
         zIndex: 20,
@@ -38,17 +38,17 @@ export function SimpleHeader({
       {/* Brand mark */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <div style={{
-          width: '24px',
-          height: '24px',
-          borderRadius: '6px',
-          background: 'linear-gradient(135deg, #7c3aed, #a855f7)',
+          width: '26px',
+          height: '26px',
+          borderRadius: '7px',
+          background: 'linear-gradient(135deg, #F97316, #EA580C)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 10px rgba(124, 58, 237, 0.45)',
+          boxShadow: '0 2px 6px rgba(249, 115, 22, 0.3)',
           flexShrink: 0,
         }}>
-          <Zap size={12} color="white" aria-hidden="true" />
+          <Zap size={13} color="white" aria-hidden="true" />
         </div>
         <span style={{
           fontFamily: 'Space Grotesk, sans-serif',
@@ -71,14 +71,14 @@ export function SimpleHeader({
               type="button"
               onClick={() => onNavigate?.(label.toLowerCase())}
               style={{
-                background: isActive ? 'rgba(124, 58, 237, 0.15)' : 'transparent',
+                background: isActive ? 'rgba(249, 115, 22, 0.08)' : 'transparent',
                 border: 'none',
                 borderRadius: '6px',
                 padding: '6px 14px',
-                color: isActive ? 'var(--accent-purple-bright)' : 'var(--text-muted)',
+                color: isActive ? 'var(--accent-primary)' : 'var(--text-muted)',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '13px',
-                fontWeight: isActive ? '500' : '400',
+                fontWeight: isActive ? '600' : '400',
                 cursor: 'pointer',
                 transition: 'color 0.15s, background 0.15s',
                 letterSpacing: '0.01em',
@@ -86,7 +86,7 @@ export function SimpleHeader({
               onMouseEnter={e => {
                 if (!isActive) {
                   e.currentTarget.style.color = 'var(--text-secondary)'
-                  e.currentTarget.style.background = 'rgba(124, 58, 237, 0.06)'
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.04)'
                 }
               }}
               onMouseLeave={e => {
@@ -114,7 +114,7 @@ export function SimpleHeader({
               gap: '6px',
               fontFamily: 'Inter, sans-serif',
               fontSize: '12px',
-              color: 'var(--accent-purple-bright)',
+              color: 'var(--accent-primary)',
             }}
           >
             <Loader2 size={13} className="spin" aria-hidden="true" />
@@ -130,8 +130,8 @@ export function SimpleHeader({
               fontSize: '11px',
               color: 'var(--accent-red)',
               padding: '3px 10px',
-              background: 'rgba(239, 68, 68, 0.08)',
-              border: '1px solid rgba(239, 68, 68, 0.2)',
+              background: 'rgba(220, 38, 38, 0.06)',
+              border: '1px solid rgba(220, 38, 38, 0.2)',
               borderRadius: '5px',
               maxWidth: '200px',
               overflow: 'hidden',
@@ -157,7 +157,6 @@ export function SimpleHeader({
               height: '6px',
               borderRadius: '50%',
               background: 'var(--accent-green)',
-              boxShadow: '0 0 6px var(--accent-green)',
               display: 'inline-block',
             }} />
             Ready
